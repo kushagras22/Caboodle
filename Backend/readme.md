@@ -77,3 +77,88 @@ The request body must be a JSON object containing the following fields:
     "error": "Internal Server Error"
   }
   ```
+
+# User Profile Endpoint
+
+## GET /users/profile
+
+### Description
+This endpoint is used to get the profile of the authenticated user.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**:
+  ```json
+  {
+    "_id": "user_id_here",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+  ```
+
+#### Unauthorized
+- **Status Code**: 401 Unauthorized
+- **Response Body**:
+  ```json
+  {
+    "message": "Unauthorized Access"
+  }
+  ```
+
+# User Logout Endpoint
+
+## GET /users/logout
+
+### Description
+This endpoint is used to log out the authenticated user and blcklist the token provided in cookie or headers.
+
+### Responses
+
+#### Success
+- **Status Code**: 200 OK
+- **Response Body**:
+  ```json
+  {
+    "message": "Logged out successfully"
+  }
+  ```
+
+#### Unauthorized
+- **Status Code**: 401 Unauthorized
+- **Response Body**:
+  ```json
+  {
+    "message": "Unauthorized Access"
+  }
+  ```
+
+# Authorization
+
+## Middleware
+
+### Description
+The authorization middleware is used to protect routes that require authentication. It checks for a valid JWT token in the request cookies or headers.
+
+### Example Usage
+```javascript
+const authMiddleware = require("../middlewares/auth.middleware");
+
+router.get("/profile", authMiddleware.authUser, userController.getUserProfile);
+router.get("/logout", authMiddleware.authUser, userController.logoutUser);
+```
+
+### Responses
+
+#### Unauthorized
+- **Status Code**: 401 Unauthorized
+- **Response Body**:
+  ```json
+  {
+    "message": "Unauthorized Access"
+  }
+  ```
