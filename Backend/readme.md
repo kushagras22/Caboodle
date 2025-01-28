@@ -7,16 +7,22 @@ This endpoint is used to register a new captain.
 
 ### Request Body
 The request body must be a JSON object containing the following fields:
-- `fullname`: An object containing:
-  - `firstname` (string, required): The first name of the captain. Must be at least 3 characters long.
-  - `lastname` (string, required): The last name of the captain. Must be at least 3 characters long.
-- `email` (string, required): The email address of the captain. Must be a valid email format.
-- `password` (string, required): The password for the captain account. Must be at least 8 characters long.
-- `vehicle`: An object containing:
-  - `color` (string, required): The color of the vehicle. Must be at least 3 characters long.
-  - `plate` (string, required): The plate number of the vehicle. Must be at least 3 characters long.
-  - `capacity` (integer, required): The capacity of the vehicle. Must be at least 1.
-  - `vehicleType` (string, required): The type of the vehicle. Must be at least 3 characters long.
+```json
+{
+  "fullname": {
+    "firstname": "John", // string, required, min length: 3
+    "lastname": "Doe" // string, required, min length: 3
+  },
+  "email": "john.doe@example.com", // string, required, valid email format
+  "password": "password123", // string, required, min length: 8
+  "vehicle": {
+    "color": "Red", // string, required, min length: 3
+    "plate": "XYZ123", // string, required, min length: 3
+    "capacity": 4, // integer, required, min value: 1
+    "vehicleType": "Sedan" // string, required, min length: 3
+  }
+}
+```
 
 ### Example Request
 ```json
@@ -283,3 +289,4 @@ router.get("/logout", authMiddleware.authUser, userController.logoutUser);
     "message": "Unauthorized Access"
   }
   ```
+````
