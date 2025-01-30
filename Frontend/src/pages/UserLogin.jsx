@@ -1,5 +1,8 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useContext, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { UserDataContext } from "../context/userContext";
+import axios from "axios";
+
 
 
 const UserLogin = () => {
@@ -8,14 +11,27 @@ const UserLogin = () => {
 
   const [password, setPassword] = useState('');
 
-  const [userData, setUserData] = useState({})
+  const { user, setUser } = useContext(UserDataContext)
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate()
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
+
+    const userData = {
       email: email,
       password: password
-    })
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
+
+    if (response.status === 200) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home');
+    }
+
     setEmail('');
     setPassword('');
   }
@@ -35,7 +51,7 @@ const UserLogin = () => {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-sm"
+            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg outline-lime-300 placeholder:text-sm"
             required type="email" placeholder="email@example.com" />
           <h3 className="text-lg font-medium">Password</h3>
           <input
@@ -43,7 +59,7 @@ const UserLogin = () => {
             onChange={(e) => {
               setPassword(e.target.value)
             }}
-            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-sm"
+            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg outline-lime-300 placeholder:text-sm"
             type="password" required placeholder="Enter Password" />
           <button
             className="bg-[#111]  hover:bg-zinc-800 text-white font-[18px] mb-3 rounded-lg px-4 py-2 border w-full text-md placeholder:text-sm"
@@ -55,7 +71,7 @@ const UserLogin = () => {
         >
           New to Caboodle?
           <Link to={'/signup'}
-            className="ml-1 text-blue-600"
+            className="ml-1 text-blue-600 hover:text-blue-800"
           >Create Account</Link></p>
 
       </div>

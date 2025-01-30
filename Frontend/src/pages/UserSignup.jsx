@@ -1,5 +1,8 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserDataContext } from '../context/userContext';
 
 
 const UserSignup = () => {
@@ -14,17 +17,33 @@ const UserSignup = () => {
 
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { user, setUser } = useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
-      fullName: {
-        firstName: firstName,
-        lastName: lastName
+    const newUser = {
+      fullname: {
+        firstname: firstName,
+        lastname: lastName
       },
       email: email,
       password: password
-    })
+    }
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
+
+    if (response.status === 201) {
+      const data = response.data
+
+      setUser(data.user);
+
+      localStorage.setItem('token', data.token);
+
+      navigate('/home')
+    }
 
     setFirstName('');
     setLastName('');
@@ -43,21 +62,21 @@ const UserSignup = () => {
           <form onSubmit={(e) => {
             submitHandler(e)
           }}>
-            <h3 className="text-base font-medium mb-2">Full Name </h3>
+            <h3 className="text-base font-medium mb-2 ">Full Name </h3>
             <div className='flex gap-2 mb-2'>
               <input
                 value={firstName}
                 onChange={(e) => {
                   setFirstName(e.target.value)
                 }}
-                className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-sm"
+                className="bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border outline-lime-300 text-lg placeholder:text-sm"
                 required type="text" placeholder="First Name" />
               <input
                 value={lastName}
                 onChange={(e) => {
                   setLastName(e.target.value);
                 }}
-                className="bg-[#eeeeee]  rounded-lg w-1/2 px-4 py-2 border  text-lg placeholder:text-sm"
+                className="bg-[#eeeeee]  rounded-lg w-1/2 px-4 py-2 border outline-lime-300 text-lg placeholder:text-sm"
                 required type="text" placeholder="Last Name" />
             </div>
 
@@ -68,7 +87,7 @@ const UserSignup = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              className="bg-[#eeeeee] mb-2 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-sm"
+              className="bg-[#eeeeee] mb-2 rounded-lg px-4 py-2 border w-full text-lg outline-lime-300 placeholder:text-sm"
               required type="email" placeholder="email@example.com" />
 
             <h3 className="text-base font-medium mb-2">Enter Password</h3>
@@ -77,11 +96,11 @@ const UserSignup = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              className="bg-[#eeeeee] mb-2 rounded-lg px-4 py-2 border w-full text-base placeholder:text-sm"
+              className="bg-[#eeeeee] mb-2 rounded-lg px-4 py-2 border w-full text-base outline-lime-300 placeholder:text-sm"
               type="password" required placeholder="Enter Password" />
             <button
-              className="bg-[#111] text-white font-[18px] mb-2 rounded-lg px-4 py-2 border w-full text-md"
-            >Sign Up</button>
+              className="bg-[#111] hover:bg-zinc-900 text-white font-[18px] mb-2 rounded-lg px-4 py-2 border w-full text-md"
+            >Create Account</button>
 
           </form>
           <p
@@ -89,7 +108,7 @@ const UserSignup = () => {
           >
             Already have an account?
             <Link to={'/login'}
-              className="ml-1 text-blue-600"
+              className="ml-1 text-blue-600 hover:text-blue-800"
             >Login Here</Link></p>
 
         </div>
@@ -97,7 +116,7 @@ const UserSignup = () => {
           <p
             className='text-[10px] text-gray-500'
           >By proceeding, you consent to get calls, WhatsApp or SMS messages, including by automated means, from
-            <Link className='underline text-zinc-800 font-medium mx-1'
+            <Link className='underline text-zinc-800 font-medium mx-1 hover:text-zinc-700'
               to={'/'}> Caboodle </Link> and its affiliates to the email provided.</p>
         </div>
       </div>
