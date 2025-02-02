@@ -32,6 +32,7 @@ const UserLogin = () => {
       navigate('/home');
     }
 
+
     setEmail('');
     setPassword('');
   }

@@ -29,7 +29,7 @@ const App = () => {
             <Home />
           </UserProtectWrapper>
         } />
-        <Route path='/user/logout' element={<UserProtectWrapper>
+        <Route path='/users/logout' element={<UserProtectWrapper>
           <UserLogout />
         </UserProtectWrapper>} />
       </Routes>
