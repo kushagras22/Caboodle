@@ -11,7 +11,7 @@ const UserProtectWrapper = ({
 
   const navigate = useNavigate();
 
-  const { user, setUser } = useContext(UserDataContext);
+  const { setUser } = useContext(UserDataContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,23 +19,24 @@ const UserProtectWrapper = ({
     if (!token) {
       navigate('/login');
     }
-  }, [token])
 
-  axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }).then((response) => {
-    if (response.status === 200) {
-      const data = response.data;
-      setUser(data.user);
+    axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      if (response.status === 200) {
+        const data = response.data;
+        setUser(data.user);
+      }
+    }).catch((err) => {
+      console.log(err);
+      localStorage.removeItem('token');
+      navigate('/login');
+    }).finally(() => {
       setIsLoading(false);
-    }
-  }).catch((err) => {
-    console.log(err);
-    localStorage.removeItem('token');
-    navigate('/login');
-  }, [token])
+    })
+  }, [token, navigate, setUser]);
 
   if (isLoading) {
     return (
