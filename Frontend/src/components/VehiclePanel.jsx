@@ -17,7 +17,7 @@ const VehiclePanel = (props) => {
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.setVehiclePanelOpen(false);
-          p
+          props.selectVehicle('car');
         }}
         className="flex w-full items-center justify-between gap-2 border-[3px] active:border-black rounded-xl p-3 mb-2 hover:cursor-pointer hover:bg-zinc-100">
         <img
@@ -33,7 +33,8 @@ const VehiclePanel = (props) => {
           <h5 className="text-sm font-roboto font-medium">2 mins away</h5>
           <p className="text-[12px] text-zinc-500 font-medium font-roboto ">Fast, comfortable rides</p>
         </div>
-        <h2 className="font-medium mt-[-32px] font-roboto">₹193.20</h2>
+        <h2 className="font-medium mt-[-32px] font-roboto">₹
+          {props.fare.car}</h2>
       </div>
 
       {/* Caboodle Pickup Motorcycle */}
@@ -41,6 +42,7 @@ const VehiclePanel = (props) => {
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.setVehiclePanelOpen(false);
+          props.selectVehicle('moto');
         }}
         className="flex w-full items-center justify-between gap-2 border-[3px] active:border-black rounded-xl p-3 mb-2 hover:cursor-pointer hover:bg-zinc-100">
         <img
@@ -56,7 +58,8 @@ const VehiclePanel = (props) => {
           <h5 className="text-sm font-roboto font-medium">3 mins away</h5>
           <p className="text-[12px] text-zinc-500 font-medium font-roboto ">Affordable airy rides</p>
         </div>
-        <h2 className="font-medium mt-[-32px] font-roboto">₹65.17</h2>
+        <h2 className="font-medium mt-[-32px] font-roboto">₹
+          {props.fare.moto}</h2>
       </div>
 
       {/* Caboodle Pickup Auto */}
@@ -64,6 +67,7 @@ const VehiclePanel = (props) => {
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.setVehiclePanelOpen(false);
+          props.selectVehicle('auto');
         }}
         className="flex w-full items-center justify-between gap-2 border-[3px] active:border-black rounded-xl p-3 mb-2 hover:cursor-pointer hover:bg-zinc-100 ">
         <img
@@ -71,7 +75,7 @@ const VehiclePanel = (props) => {
           src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png" alt="Pickup Auto Image" />
         <div className="w-1/2 ">
           <h4 className="font-medium font-roboto tracking-tight">Caboo Auto
-            <span className="text-sm font-normal ml-1  font-roboto">
+            <span className="text-sm font-normal ml-1 font-roboto">
               <i className="ri-user-fill"></i>
               3
             </span>
@@ -79,7 +83,8 @@ const VehiclePanel = (props) => {
           <h5 className="text-sm font-roboto font-medium">2 mins away</h5>
           <p className="text-[12px] text-zinc-500 font-medium font-roboto ">Pocket-friendly rides</p>
         </div>
-        <h2 className="font-medium mt-[-32px] font-roboto">₹118.21</h2>
+        <h2 className="font-medium mt-[-32px] font-roboto">₹
+          {props.fare.auto}</h2>
       </div>
     </div>
   )

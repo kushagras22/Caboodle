@@ -19,7 +19,7 @@ const RidePopup = (props) => {
           <img
             className='h-14 w-14 rounded-full object-cover'
             src="https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-          <h2 className='text-[16px] font-roboto font-medium'>Shanaya Kapoor</h2>
+          <h2 className='text-[16px] font-roboto font-medium'>{props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}</h2>
         </div>
         <h5 className='text-center text-sm text-zinc-500 font-semibold'>2.2 Km </h5>
       </div>
@@ -33,8 +33,7 @@ const RidePopup = (props) => {
           <div className='flex items-center gap-4 border-b-2 p-2'>
             <i className="text-lg ri-map-pin-range-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>562/11-A</h3>
-              <p className='text-zinc-600 text-[14px]'>Kaikondrahalli, Bengaluru, Karnataka</p>
+              <h3 className='text-[15px] font-medium text-zinc-900 tracking-tighter font-roboto  '>{props.ride?.pickup}</h3>
             </div>
           </div>
 
@@ -42,8 +41,7 @@ const RidePopup = (props) => {
           <div className='flex items-center gap-4 border-b-2 p-2'>
             <i className="text-lg ri-map-pin-3-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>Third Wave Coffee</h3>
-              <p className='text-zinc-600 text-[14px] '>17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru, Karnataka</p>
+              <h3 className='text-[15px] font-medium text-zinc-900 tracking-tighter font-roboto  '>{props.ride?.destination}</h3>
             </div>
           </div>
 
@@ -51,7 +49,7 @@ const RidePopup = (props) => {
           <div className='flex items-center gap-4 p-2'>
             <i className="text-lg ri-wallet-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>₹193.20</h3>
+              <h3 className='text-lg font-semibold '>₹{props.ride?.fare}</h3>
               <p className='text-zinc-600 text-[14px] '>Payment by Cash</p>
             </div>
           </div>

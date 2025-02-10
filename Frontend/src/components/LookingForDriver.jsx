@@ -21,8 +21,7 @@ const LookingForDriver = (props) => {
           <div className='flex items-center gap-4 border-b-2 p-2'>
             <i className="text-lg ri-map-pin-range-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>562/11-A</h3>
-              <p className='text-zinc-600 text-[14px]'>Kaikondrahalli, Bengaluru, Karnataka</p>
+              <h3 className='text-[15px] font-medium text-zinc-900 tracking-tighter font-roboto  '>{props.pickup}</h3>
             </div>
           </div>
 
@@ -30,8 +29,7 @@ const LookingForDriver = (props) => {
           <div className='flex items-center gap-4 border-b-2 p-2'>
             <i className="text-lg ri-map-pin-3-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>Third Wave Coffee</h3>
-              <p className='text-zinc-600 text-[14px] '>17th Cross Rd, PWD Quarters, 1st Sector, HSR Layout, Bengaluru, Karnataka</p>
+              <h3 className='text-[15px] font-medium text-zinc-800 tracking-tighter font-roboto  '>{props.destination}</h3>
             </div>
           </div>
 
@@ -39,7 +37,7 @@ const LookingForDriver = (props) => {
           <div className='flex items-center gap-4 p-2'>
             <i className="text-lg ri-wallet-fill"></i>
             <div className=''>
-              <h3 className='text-lg font-semibold '>₹193.20</h3>
+              <h3 className='text-[15px] font-semibold text-zinc-800 tracking-tight font-roboto'>₹{props.fare[props.vehicleType]}</h3>
               <p className='text-zinc-600 text-[14px] '>Payment by Cash</p>
             </div>
           </div>
