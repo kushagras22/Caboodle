@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { UserDataContext } from "../context/userContext";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -63,6 +64,10 @@ const UserLogin = () => {
             className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg outline-lime-300 placeholder:text-sm"
             type="password" required placeholder="Enter Password" />
           <button
+            onClick={() => {
+              toast.success("Login Successful");
+
+            }}
             className="bg-[#111]  hover:bg-zinc-800 text-white font-[18px] mb-3 rounded-lg px-4 py-2 border w-full text-md placeholder:text-sm"
           >Login</button>
 

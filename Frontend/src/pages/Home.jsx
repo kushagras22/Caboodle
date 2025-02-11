@@ -11,6 +11,7 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/userContext";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const Home = () => {
