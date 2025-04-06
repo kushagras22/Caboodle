@@ -34,6 +34,7 @@ const CaptainProtectWrapper = ({
     }).catch((err) => {
       console.error("Authorization Error.", err);
       localStorage.removeItem('token');
+      localStorage.setItem('firstCaptainLogin', 'false');
       navigate('/captain-login');
     }).finally(() => {
       setIsLoading(false);

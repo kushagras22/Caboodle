@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { CaptainDataContext } from '../context/CaptainContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const CaptainSignup = () => {
 
@@ -44,16 +45,23 @@ const CaptainSignup = () => {
       }
     }
 
+    try {
+      const promise = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
+      const response = await toast.promise(promise, {
+        loading: "Creating captain account...",
+        success: "Account created successfully!",
+        error: "Registration failed. Please try again!"
+      });
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData);
-    if (response.status === 201) {
-      const data = response.data;
-      setCaptain(data.captain);
-      localStorage.setItem('token', data.token);
-      navigate('/captain-home');
+      if (response.status === 201) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem('token', data.token);
+        navigate('/captain-login');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred during registration!");
     }
-
-
 
     setFirstName('');
     setLastName('');
@@ -68,13 +76,12 @@ const CaptainSignup = () => {
   return (
     <>
       <div className="p-7 h-screen flex flex-col justify-between ">
+        <Toaster />
         <div className="flex justify-center ">
           <img className='w-20 ' src="./src/assets/CaptainLogo.png" />
         </div>
         <div>
-          <form onSubmit={(e) => {
-            submitHandler(e)
-          }}>
+          <form onSubmit={submitHandler}>
             <h3 className="text-base font-medium mb-2">Full Name </h3>
             <div className='flex gap-2 mb-2'>
               <input
@@ -181,7 +188,7 @@ const CaptainSignup = () => {
         <div className='mt-6 '>
           <p
             className='text-[10px] text-gray-500 tracking-tighter '
-          >This site is protected by reCAPTCHA and the Google's
+          >This site is protected by reCAPTCHA and the Google&#39s
             <Link to={'https://policies.google.com/privacy?hl=en-US'} target='blank' className='underline text-zinc-800 font-medium mx-1'> Privacy Policy</Link>
             and
             <Link to={'https://policies.google.com/terms?hl=en-US'} target='blank' className='underline text-zinc-800 font-medium mx-1'>Terms of Service</Link>

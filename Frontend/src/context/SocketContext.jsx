@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
 // Create the SocketContext
@@ -10,8 +10,6 @@ const SocketProvider = ({ children }) => {
 
 
   useEffect(() => {
-
-
     // Log upon connection.
     socket.on("connect", () => {
       console.log("Socket connected with id:", socket.id);

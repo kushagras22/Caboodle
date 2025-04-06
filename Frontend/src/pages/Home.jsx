@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
@@ -16,7 +16,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Home = () => {
 
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const [pickup, setPickup] = useState('');
 
@@ -54,6 +54,10 @@ const Home = () => {
 
   const [vehicleType, setVehicleType] = useState(null);
 
+  const [ride, setRide] = useState(null);
+
+  const navigate = useNavigate();
+
   const { socket } = useContext(SocketContext);
 
   const { user } = useContext(UserDataContext);
@@ -61,6 +65,28 @@ const Home = () => {
   useEffect(() => {
     socket.emit("join", { userType: "user", userId: user._id });
   }, [user])
+
+  socket.on('ride-confirmed', ride => {
+
+
+    setVehicleFound(false)
+    setWaitingForDriver(true)
+    setRide(ride)
+  })
+
+  socket.on('ride-started', ride => {
+    console.log("ride")
+    setWaitingForDriver(false)
+    navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+  })
+
+  useEffect(() => {
+    const isFirstLogin = localStorage.getItem('firstLogin') !== null;
+    if (location.state?.loginSuccess && isFirstLogin) {
+      toast.success('Login successful!', { duration: 2000 });
+      localStorage.setItem('firstLogin', 'true');
+    }
+  }, [location.state]);
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value)
@@ -162,7 +188,7 @@ const Home = () => {
   useGSAP(() => {
     if (waitingForDriver) {
       gsap.to(waitingForDriverRef.current, {
-        transform: 'translateY(0%)'
+        transform: 'translateY(0)'
       })
     } else {
       gsap.to(waitingForDriverRef.current, {
@@ -200,6 +226,7 @@ const Home = () => {
 
   return (
     <div className="h-screen relative overflow-hidden">
+      <Toaster />
       <img
         className="w-20 absolute"
         src="./src/assets/Caboodle Logo.png" alt="Caboodle Logo" />
@@ -271,7 +298,6 @@ const Home = () => {
         className="fixed w-full z-10 bottom-0 bg-white px-3 py-10 pt-12 rounded-tr-xl rounded-tl-xl translate-y-full">
         <VehiclePanel
           selectVehicle={setVehicleType}
-          createRide={createRide}
           fare={fare}
           setConfirmRidePanel={setConfirmRidePanel}
           setVehiclePanelOpen={setVehiclePanelOpen}
@@ -287,9 +313,8 @@ const Home = () => {
           fare={fare}
           vehicleType={vehicleType}
           createRide={createRide}
-          setVehiclePanelOpen={setVehiclePanelOpen}
-          setConfirmRidePanel={setConfirmRidePanel}
           setVehicleFound={setVehicleFound}
+          setConfirmRidePanel={setConfirmRidePanel}
         />
       </div>
 
@@ -299,12 +324,11 @@ const Home = () => {
         className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12 rounded-tr-xl rounded-tl-xl translate-y-full">
 
         <LookingForDriver
+          createRide={createRide}
           pickup={pickup}
           destination={destination}
           fare={fare}
           vehicleType={vehicleType}
-          setVehiclePanelOpen={setVehiclePanelOpen}
-          setConfirmRidePanel={setConfirmRidePanel}
           setVehicleFound={setVehicleFound}
         />
       </div>
@@ -313,7 +337,10 @@ const Home = () => {
         ref={waitingForDriverRef}
         className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12 rounded-tr-xl rounded-tl-xl ">
         <WaitingForDriver
+          ride={ride}
+          setVehicleFound={setVehicleFound}
           setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitingForDriver}
         />
       </div>
 

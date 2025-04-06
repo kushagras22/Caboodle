@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
-const captainModel = require("../models/captain.model");
 const captainController = require("../controllers/captain.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 
@@ -25,7 +24,7 @@ router.post(
       .isInt({ min: 1 })
       .withMessage("Capacity must be at least 1"),
     body("vehicle.vehicleType")
-      .isLength({ min: 3 })
+      .isIn(["car", "moto", "auto"])
       .withMessage("Vehicle type must be at least 3 characters long"),
   ],
   captainController.registerCaptain

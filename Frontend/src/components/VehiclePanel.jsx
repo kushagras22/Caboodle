@@ -25,7 +25,7 @@ const VehiclePanel = (props) => {
           src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1688398971/assets/29/fbb8b0-75b1-4e2a-8533-3a364e7042fa/original/UberSelect-White.png" alt="Pickup Car Image" />
         <div className="w-1/2 ">
           <h4 className="font-medium font-roboto tracking-tight">Caboo Go
-            <span className="text-sm font-normal ml-1  font-roboto">
+            <span className="text-sm font-normal ml-1 font-roboto">
               <i className="ri-user-fill"></i>
               4
             </span>

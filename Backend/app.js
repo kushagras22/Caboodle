@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to Caboodle!");
 });
 
 app.use("/users", userRoutes);

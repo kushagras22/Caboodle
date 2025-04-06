@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const captainSchema = mongoose.Schema({
+const captainSchema = new mongoose.Schema({
   fullname: {
     firstname: {
       type: String,
       required: true,
       minlength: [3, "First name must be at least 3 characters long"],
     },
-
     lastname: {
       type: String,
       minlength: [3, "Last name must be at least 3 characters long"],
@@ -20,7 +19,7 @@ const captainSchema = mongoose.Schema({
     required: true,
     unique: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, "Please enter a valid email"],
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"],
   },
   password: {
     type: String,
@@ -28,17 +27,14 @@ const captainSchema = mongoose.Schema({
     select: false,
     minlength: [8, "Password must be at least 8 characters long"],
   },
-
   socketId: {
     type: String,
   },
-
   status: {
     type: String,
     enum: ["active", "inactive"],
     default: "inactive",
   },
-
   vehicle: {
     color: {
       type: String,
@@ -61,7 +57,6 @@ const captainSchema = mongoose.Schema({
       enum: ["car", "motorcycle", "auto"],
     },
   },
-
   location: {
     ltd: {
       type: Number,
@@ -87,6 +82,6 @@ captainSchema.statics.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
 
-const captainModel = mongoose.model("Captain", captainSchema);
+const captainModel = mongoose.model("captain", captainSchema);
 
 module.exports = captainModel;

@@ -1,13 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const RidePopup = (props) => {
   return (
     <div>
       <h5
         onClick={() => {
-          props.setRidePopupPanel(false);
+          props.setRidePopupPanel(false)
         }}
         className="absolute p-1 text-center w-[93%] top-0 hover:rounded-full hover:cursor-pointer">
+
         <i
 
           className='text-3xl text-zinc-200 ri-arrow-down-wide-line '></i>

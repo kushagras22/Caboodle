@@ -31,6 +31,7 @@ const UserProtectWrapper = ({
     }).catch((err) => {
       console.log(err);
       localStorage.removeItem('token');
+      localStorage.setItem('firstLogin', 'false');
       navigate('/login');
     }).finally(() => {
       setIsLoading(false);

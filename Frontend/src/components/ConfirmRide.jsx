@@ -5,7 +5,7 @@ const ConfirmRide = (props) => {
     <div>
       <h5
         onClick={() => {
-          props.setVehiclePanelOpen(false);
+
           props.setConfirmRidePanel(false);
         }}
         className="absolute p-1 text-center w-[93%] top-0 hover:rounded-full hover:cursor-pointer">

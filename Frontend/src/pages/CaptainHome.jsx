@@ -7,6 +7,9 @@ import gsap from 'gsap';
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
+import { useLocation } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 
 const CaptainHome = () => {
@@ -25,6 +28,8 @@ const CaptainHome = () => {
 
   const { captain } = useContext(CaptainDataContext);
 
+  const location = useLocation();
+
   useEffect(() => {
     socket.emit('join', {
       userId: captain._id,
@@ -35,13 +40,6 @@ const CaptainHome = () => {
       if (navigator.geolocation) {
 
         navigator.geolocation.getCurrentPosition(position => {
-          console.log({
-            userId: captain._id,
-            location: {
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          })
           socket.emit('update-location-captain', {
             userId: captain._id,
             location: {
@@ -53,11 +51,11 @@ const CaptainHome = () => {
       }
     }
 
-    // const locationInterval = setInterval(updateLocation, 10000);
-    // updateLocation()
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation()
 
 
-    //return () => clearInterval(locationInterval);
+    // return () => clearInterval(locationInterval);
   })
 
   socket.on('new-ride', (data) => {
@@ -90,8 +88,16 @@ const CaptainHome = () => {
     }
   }, [confirmRidePopup])
 
+  useEffect(() => {
+
+    if (location.state?.loginSuccess && localStorage.getItem('firstCaptainLogin')) {
+      toast.success('Login successful!', { duration: 2000 });
+    }
+  }, [location.state]);
+
   return (
-    <div className="h-screen overflow-hidden  ">
+    <div className="h-screen overflow-hidden">
+      <Toaster />
       <div className="fixed p-3 top-0 flex items-center justify-between w-screen">
         <img
           className="w-20 "
@@ -100,6 +106,7 @@ const CaptainHome = () => {
           to={'/captain-login'}
           onClick={() => {
             localStorage.removeItem('token');
+            localStorage.setItem('firstCaptainLogin', 'false');
           }}
           className=" h-10 w-10  bg-white flex items-center justify-center rounded-full  hover:cursor-pointer hover:bg-zinc-200">
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
@@ -119,6 +126,7 @@ const CaptainHome = () => {
             ride={ride}
             setRidePopupPanel={setRidePopupPanel}
             setConfirmRidePopup={setConfirmRidePopup}
+
           />
         </div>
 
@@ -126,6 +134,7 @@ const CaptainHome = () => {
           ref={confirmRidePopupRef}
           className="fixed w-full h-screen z-10 bottom-0 bg-white px-3 py-5  translate-y-full rounded-tr-xl rounded-tl-xl ">
           <ConfirmRidePopup
+            ride={ride}
             setRidePopupPanel={setRidePopupPanel}
             setConfirmRidePopup={setConfirmRidePopup}
           />

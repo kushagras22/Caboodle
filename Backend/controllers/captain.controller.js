@@ -48,7 +48,7 @@ module.exports.loginCaptain = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid Credentials" });
   }
 
-  const isMatch = await captain.comparePassword(password, captain.password);
+  const isMatch = await captain.comparePassword(password);
 
   if (!isMatch) {
     return res.status(401).json({ message: "Invalid Credentials" });
@@ -66,7 +66,7 @@ module.exports.getCaptainProfile = async (req, res, next) => {
 };
 
 module.exports.logoutCaptain = async (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   await BlacklistTokenModel.create({ token });
 
