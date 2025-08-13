@@ -11,7 +11,7 @@ Caboodle aims to deliver a reliable and user-friendly cab booking experience. Th
 - Stripe
 - PostgreSQL
 - Google Maps
-- zustand
+- Zustand
 - Clerk
 - Tailwind CSS
 
